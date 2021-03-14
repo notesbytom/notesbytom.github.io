@@ -14,5 +14,14 @@
       <li>web3.version = <script>document.write(web3.version);</script></li>
       <li>web3.eth.defaultAccount = <script>document.write(web3.eth.defaultAccount);</script></li>
     </ul>
+    <p>
+      <script>
+        web3.eth.getAccounts().then(
+          function(value) {
+            document.write(`accounts length = ${value.length}`)
+          };
+          );
+      </script>
+    </p>
   </body>
 </html>
