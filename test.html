@@ -13,13 +13,24 @@
     <ul>
       <li>web3.version = <script>document.write(web3.version);</script></li>
       <li>web3.eth.defaultAccount = <script>document.write(web3.eth.defaultAccount);</script></li>
-      <li>web3.eth.getAccounts() length = <span id="accountsLength"></span>
+      <li id="accounts">web3.eth.getAccounts() length = <span id="accountsLength"></span>
     </ul>
 
     <script>
       web3.eth.getAccounts().then(
         (value) => {
-          document.getElementById("accountsLength").innerHTML = value.length;
+          acctsLen = document.getElementById("accountsLength");
+          acctsLen.innerHTML = value.length;
+          if (value.length > 0) {
+            accounts = document.createElement("ul");
+            accounts.id = "accounts";
+            acctsLen.appendChild(accounts);
+            value.foreach(function(item) {
+              li = document.createElement("li");
+              li.innerHTML = item;
+              accounts.appendChild(li);
+            });
+          }
         }
         );
     </script>
