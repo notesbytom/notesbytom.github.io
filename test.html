@@ -3,7 +3,8 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script>
       // See https://github.com/ChainSafe/web3.js
-      let web3 = new Web3(Web3.givenProvider)
+      // ... and https://web3js.readthedocs.io/
+      let web3 = new Web3(Web3.givenProvider || "https://cloudflare-eth.com/");
     </script>
     <title>Test Page</title>
   </head>
