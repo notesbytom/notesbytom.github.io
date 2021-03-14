@@ -13,15 +13,16 @@
     <ul>
       <li>web3.version = <script>document.write(web3.version);</script></li>
       <li>web3.eth.defaultAccount = <script>document.write(web3.eth.defaultAccount);</script></li>
+      <li>web3.eth.getAccounts() length = <span id="accountsLength"></span>
     </ul>
-    <p>
-      <script>
-        web3.eth.getAccounts().then(
-          (value) => {
-            document.write(`accounts length = ${value.length}`);
-          }
-          );
-      </script>
-    </p>
+
+    <script>
+      web3.eth.getAccounts().then(
+        (value) => {
+          document.getElementById("accountsLength").innerHTML = value.length;
+        }
+        );
+    </script>
+
   </body>
 </html>
