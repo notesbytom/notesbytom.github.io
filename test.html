@@ -22,13 +22,13 @@
           acctsLen = document.getElementById("accountsLength");
           acctsLen.innerHTML = value.length;
           if (value.length > 0) {
-            accounts = document.createElement("ul");
-            accounts.id = "accounts";
-            acctsLen.appendChild(accounts);
+            accounts = document.getElementById("accounts");
+            ul = document.createElement("ul");
+            accounts.appendChild(accounts);
             value.foreach(function(item) {
               li = document.createElement("li");
               li.innerHTML = item;
-              accounts.appendChild(li);
+              ul.appendChild(li);
             });
           }
         }
