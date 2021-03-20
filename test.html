@@ -17,6 +17,7 @@
     <ul>
       <li>web3.version = <script>document.write(web3.version);</script></li>
       <li>web3.eth.defaultAccount = <script>document.write(web3.eth.defaultAccount);</script></li>
+      <li>web3.eth.getChainId() = <span id="chainId"></span></li>
       <li id="accounts">web3.eth.getAccounts() length = <span id="accountsLength"></span>
     </ul>
     
@@ -44,6 +45,11 @@
     </form>
 
     <script>
+      web3.eth.getChainId().then(
+        (chainId) => {
+          document.getElementById('chainId').innerHTML = chainId;
+        }
+      );
       web3.eth.getAccounts().then(
         (value) => {
           acctsLen = document.getElementById("accountsLength");
