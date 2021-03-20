@@ -6,6 +6,67 @@
       // See https://github.com/ChainSafe/web3.js
       // ... and https://web3js.readthedocs.io/
       let web3 = new Web3(Web3.givenProvider || "https://cloudflare-eth.com/");
+      function signVote() {
+        msgParams = {
+          domain: {
+            chainId: document.getElementById('chainId').innerHTML,
+            name: "Compound Governor Alpha",
+            verifyingContract: "0xc0da01a04c3f3e0be433606045bb7017a7323e38",
+          },
+          message: {
+            proposalId: document.getElementById('proposalId').value,
+            support: document.getElementById('support').value,
+          },
+          primaryType: "Ballot",
+          types: {
+            EIP712Domain: [
+              { name: "name", type: "string" },
+              { name: "chainId", type: "uint256" },
+              { name: "verifyingContract", type: "address" },
+            ],
+            Ballot: [
+              { name: "proposalId", type: "uint256" },
+              { name: "support", type: "bool" },
+            ],
+          },
+        };
+        var from = web3.eth.accounts[0];
+        var params = [from, msgParams];
+        var method = 'eth_signTypedData_v4';
+
+  web3.currentProvider.sendAsync(
+    {
+      method,
+      params,
+      from,
+    },
+    function (err, result) {
+      if (err) return console.dir(err);
+      if (result.error) {
+        alert(result.error.message);
+      }
+      if (result.error) return console.error('ERROR', result);
+      alert('TYPED SIGNED:' + JSON.stringify(result.result));
+
+      const recovered = sigUtil.recoverTypedSignature_v4({
+        data: msgParams, /* JSON.parse(msgParams), */
+        sig: result.result,
+      });
+
+      if (
+        ethUtil.toChecksumAddress(recovered) === ethUtil.toChecksumAddress(from)
+      ) {
+        alert('Successfully recovered signer as ' + from);
+      } else {
+        alert(
+          'Failed to verify signer when comparing ' + result + ' to ' + from
+        );
+      }
+    }
+  );
+        
+        
+      }
     </script>
     <title>Test Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +88,7 @@
         <legend>comp.vote testing</legend>
         <p>
           <label for="address">Address</label>
-          <input type="text" id="address" name="address" required="required" />
+          <input type="text" id="address" name="address" disabled="disabled" required="required" />
         </p>
         <p>
           <label for="proposalId">Proposal ID</label>
@@ -40,6 +101,9 @@
         <p>
           <input type="button" id="supportTrue" onclick="support.value='true';" value="Vote For (support=true)" />
           <input type="button" id="supportFalse" onclick="support.value='false';" value="Vote Against (support=false)" />
+        </p>
+        <p>
+          <input type="button" id="signVote" onclick="signVote()" />
         </p>
       </fieldset>
     </form>
