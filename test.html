@@ -7,6 +7,7 @@
       // ... and https://web3js.readthedocs.io/
       let web3 = new Web3(Web3.givenProvider || "https://cloudflare-eth.com/");
       function signVote() {
+        alert("signVote() function");
         msgParams = {
           domain: {
             chainId: document.getElementById('chainId').innerHTML,
